@@ -1,3 +1,7 @@
+"""
+Problem LINK: https://leetcode.com/problems/zigzag-conversion/
+"""
+
 def zigzag_solver(string, k):
     n = len(string)
     green_indexes = []
