@@ -49,17 +49,17 @@ Why it works?
  - This algorithm doesn't leave out valid triangles:
      Suppose there is a triangle of edges (a,b,c) that the algorithm overlooked, where a < b < c.
      It must be the case that 
-          a + b > c
-          a + c > b
-          b + c > a
+          a + b >= c
+          a + c >= b
+          b + c >= a
     
     For sure, the algorithm at some iteration points at c with the outer for loop.
     For sure, the algorithm pointing at c will also point at a with the inner loop.
     Since a < b < c, b must lie between the indexes of a and c in the sorted array.
     The algorithm then counts the number of entries between indexes of a and c that have a value between dif = c-a and sum = a+c
     But b is guaranteed to be within that range of (dif, sum) because:
-         b < sum because otherwise (a,b,c) cannot be a valid triangle
-         b > dif because otherwise (a,b,c) cannot be a valid triangle
+         b <= sum because otherwise (a,b,c) cannot be a valid triangle
+         b >= dif because otherwise (a,b,c) cannot be a valid triangle
     
     Thus, the algorithm must have counted the triangle (a,b,c) during its execution.
      
