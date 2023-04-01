@@ -24,13 +24,14 @@ def number_of_digit_one(n):
             count = count + ((len(strn)-i+1) * (int(strn[:i-1]) + 1))
             
     # special case for the last and most significant digit
-    count = count + int(strn[1:]) + 1
+    count = count + (int(strn[0])-1)*(10**(len(strn)-1)) + int(strn[1:]) + 1
     return count
     
     
 print(number_of_digit_one(12))
 print(number_of_digit_one(13))
 print(number_of_digit_one(123))
+print(number_of_digit_one(211))
 
 
     
