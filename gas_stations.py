@@ -20,10 +20,10 @@ def gas_stations(gas, cost):
     balance = []
     for i in range(0, len(gas)):
         balance.append(gas[i] - cost[i])
-    candidates = [i for i in range(0, len(gas))] 
+    candidates = [] 
     for i in range(0, len(balance)):
-        if balance[i] < 0:
-            candidates.remove(i)      
+        if balance[i] >= 0:
+            candidates.append(i)   
     for c in candidates:
         if feasible_trip(gas, balance, c):
             return c
