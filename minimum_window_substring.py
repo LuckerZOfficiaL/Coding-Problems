@@ -13,11 +13,7 @@ Idea:
         compare the shortest string of s from left contianing all characters in t againast from right
         if left range is smaller, remove from s the rightmost character in t and then remove the useless border if there is any
         if right range is smaller, shrink s from the left
-    the loop ends when the remaining s cannot be further shrunk
-    
-    
-Note: this implementation ignored the request that duplicates in t must also be included in the window.
-    
+    the loop ends when the remaining s cannot be further shrunk    
 """
 
 def minimum_window_substring(s, t):       
