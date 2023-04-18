@@ -10,6 +10,9 @@ Note that:
     Each operand may be an integer or another expression.
     There will not be any division by zero.
     The input represents a valid arithmetic expression in a reverse polish notation.
+    
+    
+Idea: use a Stack
 """
 
 def eval_polish(expr):
