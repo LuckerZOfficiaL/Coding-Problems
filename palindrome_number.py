@@ -6,7 +6,7 @@ E.g. 121 is palindrome.
 """
 
 def isPalindrome(n):
-    num = n
+    num = abs(n) # because numbers can also be negative
     digit_list = []
     while(True):
         digit = 0
