@@ -2,64 +2,47 @@
 """
 Given an array of integer intervals where intervals[i] = [starti, endi], merge all overlapping intervals,
 and return an array of the non-overlapping intervals that cover all the intervals in the input.
-Assume that starti <= starti+1. (if you don't have this assumption, you can just sort the list firts by starti)
+
 
 For instance:
     Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
     Output: [[1,6],[8,10],[15,18]]
     
     
+
+IDEA: use a Stack
+        sort the intervals by start time
+        use a stack as the output list
+        start with the stack containing the first interval
+        iteratively check the intervals in ascending order of start time
+        for each subsequent interval:
+            if non-overlapped with the stack-top interval:
+                add it to the stack
+            else (there is overlap):
+                update the stack-top interval's end time with the maximum between its original and the end time of the new interval
+        return the stack
     
-Idea:  imagine always having a "current interval", the one we are focusing on
-   -start with the first interval being the "current interval"
-   -check whether some intervals have started not after the end of the "current interval" but after the start of "current interval"
-        -if yes, for the first such interval
-            -check whether it is still open 
-                -if yes: "current interval" = this interval, and go on
-                -if no: there will be no "current interval" for now
-                    -get to the next-starting interval and that is our new "current interval"
-    repeat
-    
-    
-    during the process, memorize the gaps where there is no "current interval"
-    then the output of the algorithm is the whole interval [start0, endn] with gaps cut away
-                
+TIME OPTIMIZATION: calculate the maximum end time among all intervals, we can break the loop as soon as any end time is at least this value.
+
+
+COMPLEXITY: 
+        O(nlog(n)) running time for sorting, where n = #intervals
+        O(n) spatial complexity to store the stack
 """
 
-def merge_intervals(intervals):
-    gaps = []
-    current_interval_index = 0
-    have_been_current_indexes = []
-    
-    while(current_interval_index != None):
-        go_forward = True
-        for i in range(0, len(intervals)):
-            if ((intervals[i][0] >= intervals[current_interval_index][0]) 
-            and (intervals[i][0] <= intervals[current_interval_index][1])
-            and (i not in have_been_current_indexes)): # if it started before the end of the current
-                current_interval_index = i
-                have_been_current_indexes.append(i)
-                go_forward = False
-                break
-            
-        if go_forward == True:
-            if current_interval_index + 1 < len(intervals):
-                gaps.append([intervals[current_interval_index][1], intervals[current_interval_index+1][0]])
-                current_interval_index += 1
-                have_been_current_indexes.append(current_interval_index)
-            else:
-                current_interval_index = None
 
-    
-    
-    whole_interval = [intervals[0][0], max(intervals, key=lambda x:x[1])[1]]
-    output = []
-    previous_start = whole_interval[0]
-    for gap in gaps:
-        output.append([previous_start, gap[0]])
-        previous_start = gap[1]
-    output.append([previous_start, whole_interval[1]])
-    return output
+def merge_intervals(intervals):
+        intervals.sort(key = lambda x: x[0])
+        Max = max(intervals, key = lambda x: x[1])[1] # the maximum end value of an interval
+
+        stack = [intervals[0]]
+        for i in range(1, len(intervals)):
+            if stack[-1][1] < intervals[i][0]: # non-overlapping with the current stack-top interval
+                stack.append(intervals[i])
+            else:
+                stack[-1][1] = max(intervals[i][1], stack[-1][1])
+            if stack[-1][1] >= Max: break # I can break the loop early if the right extreme is at least Max
+        return stack
         
     
     
